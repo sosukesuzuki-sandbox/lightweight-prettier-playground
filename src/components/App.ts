@@ -6,7 +6,7 @@ import { useWorker } from "../lib/contexts/WorkerContext";
 const App: FunctionComponent = () => {
   const { format } = useWorker();
   useEffect(() => {
-    format("foo").then((f) => console.log(f));
+    format("const foo = '3'", {}).then((f) => console.log(f));
   }, []);
   return h("div", null, [h(TopNav, null)]);
 };
