@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write .",
+    "format": "prettier --write --ignore-path=.gitignore .",
     "tsc": "tsc ./src/index.ts --noEmit",
     "build": "NODE_ENV=production node ./scripts/build.js",
     "dev:modern": "node ./scripts/devModern.js",
