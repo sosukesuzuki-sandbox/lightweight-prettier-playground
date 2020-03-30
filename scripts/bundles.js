@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const WorkerPlugin = require("worker-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 const srcPath = path.resolve(__dirname, "..", "src");
@@ -13,6 +14,7 @@ const plugins = [
       to: path.resolve(distPath, "index.html"),
     },
   ]),
+  new WorkerPlugin(),
 ];
 
 const baseConfig = {
@@ -35,29 +37,45 @@ const baseConfig = {
   },
 };
 
-const configureBabelLoader = ({ isModern }) => {
-  return {
-    test: /\.ts$/,
-    use: {
-      loader: "babel-loader",
-      options: {
-        babelrc: false,
-        exclude: [/core-js/, /regenerator-runtime/],
-        presets: [
-          [
-            "@babel/preset-env",
-            {
-              bugfixes: isModern,
-              targets: {
-                esmodules: isModern,
-              },
+const configureLoaders = ({ isModern }) => {
+  const babelLoaderConfig = {
+    loader: "babel-loader",
+    options: {
+      babelrc: false,
+      exclude: [/core-js/, /regenerator-runtime/],
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            bugfixes: isModern,
+            targets: {
+              esmodules: isModern,
             },
-          ],
-          "@babel/preset-typescript",
+          },
         ],
-      },
+        "@babel/preset-typescript",
+      ],
     },
   };
+  return [
+    {
+      test: /\.w\.ts$/,
+      use: [
+        {
+          loader: "worker-loader",
+          options: {
+            publicPath: process.env.ASSET_HOST || "/",
+            inline: true,
+          },
+        },
+        babelLoaderConfig,
+      ],
+    },
+    {
+      test: /\.ts$/,
+      use: babelLoaderConfig,
+    },
+  ];
 };
 
 const modernConfig = Object.assign({}, baseConfig, {
@@ -69,7 +87,7 @@ const modernConfig = Object.assign({}, baseConfig, {
     filename: "main.mjs",
   },
   module: {
-    rules: [configureBabelLoader({ isModern: true })],
+    rules: configureLoaders({ isModern: true }),
   },
 });
 
@@ -82,7 +100,7 @@ const legacyConfig = Object.assign({}, baseConfig, {
     filename: "main.es5.js",
   },
   module: {
-    rules: [configureBabelLoader({ isModern: false })],
+    rules: configureLoaders({ isModern: false }),
   },
 });
 
