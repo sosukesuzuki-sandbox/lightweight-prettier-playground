@@ -6,9 +6,11 @@
   "scripts": {
     "format": "prettier --write --ignore-path=.gitignore .",
     "tsc": "tsc ./src/index.ts --noEmit",
-    "build": "NODE_ENV=production node ./scripts/build.js",
-    "dev:modern": "node ./scripts/devModern.js",
-    "dev:legacy": "node ./scripts/devLegacy.js"
+    "build": "yarn build:modern && yarn build:legacy",
+    "build:modern": "NODE_ENV=production webpack",
+    "build:legacy": "BABEL_ENV=nomodule NODE_ENV=production webpack",
+    "dev:modern": "webpack-dev-server",
+    "dev:legacy": "BABEL_ENV=nomodule webpack-dev-server"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -22,6 +24,7 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.6.1",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "worker-loader": "^2.0.0",
     "worker-plugin": "^4.0.2"

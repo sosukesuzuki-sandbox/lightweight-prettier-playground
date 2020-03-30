@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": { "esmodules": true },
+        "bugfixes": true
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
+
+  "env": {
+    "nomodule": {
+      "presets": ["@babel/preset-env", "@babel/preset-typescript"]
+    }
+  }
+}
