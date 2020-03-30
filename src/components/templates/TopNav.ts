@@ -1,17 +1,18 @@
 import { h, FunctionComponent } from "preact";
 import Typography from "../atoms/Typography";
 import Anchor from "../atoms/Anchor";
+import { gray } from "../../lib/colors";
 
 const TopNav: FunctionComponent = () => {
   return h(
     "nav",
     {
       style: {
-        backgroundColor: "gray",
+        borderBottom: `1px solid ${gray[5]}`,
         height: "60px",
         display: "flex",
         alignItems: "center",
-        padding: "0 10px",
+        padding: "0 20px",
         justifyContent: "space-between",
       },
     },

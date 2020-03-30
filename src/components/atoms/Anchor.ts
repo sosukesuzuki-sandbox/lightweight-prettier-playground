@@ -1,13 +1,16 @@
 import { h, FunctionComponent } from "preact";
+import { gray } from "../../lib/colors";
 
 type Props = {
   href: string;
 };
 
+const style = { color: gray[8], fontWeight: "bold", textDecoration: "none" };
+
 const Anchor: FunctionComponent<Props> = ({ href, children }) => {
   return h(
     "a",
-    { href, target: "_blank", rel: "noopener noreferrer" },
+    { style, href, target: "_blank", rel: "noopener noreferrer" },
     children
   );
 };

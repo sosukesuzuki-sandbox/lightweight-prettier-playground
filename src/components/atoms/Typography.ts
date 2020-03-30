@@ -1,4 +1,5 @@
 import { h, FunctionComponent } from "preact";
+import { gray } from "../../lib/colors";
 
 type Size = "small" | "middle" | "large";
 type Props = {
@@ -16,7 +17,12 @@ const Typography: FunctionComponent<Props> = ({ size, weight, children }) => {
   return h(
     "p",
     {
-      style: { margin: "0", fontWeight: weight, fontSize: sizeMap.get(size)! },
+      style: {
+        margin: "0",
+        fontWeight: weight,
+        fontSize: sizeMap.get(size)!,
+        color: gray[9],
+      },
     },
     children
   );
