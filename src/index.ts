@@ -1,6 +1,4 @@
 import { h, render } from "preact";
+import App from "./components/App";
 
-render(
-  h("a", { href: "/" }, "Hello, lightweight-prettier-playground"),
-  document.querySelector(".root")!
-);
+render(h(App, null), document.querySelector(".root")!);
