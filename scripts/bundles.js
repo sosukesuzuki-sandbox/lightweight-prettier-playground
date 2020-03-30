@@ -3,6 +3,11 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const WorkerPlugin = require("worker-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const args = process.argv.slice(2);
+
+const shouldAnalyze = args[0] === "--analyze"
 
 const srcPath = path.resolve(__dirname, "..", "src");
 const distPath = path.resolve(__dirname, "..", "dist");
@@ -15,7 +20,11 @@ const plugins = [
     },
   ]),
   new WorkerPlugin({ globalObject: "self" }),
-];
+]
+
+if (shouldAnalyze) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
 
 const baseConfig = {
   mode: process.env.NODE_ENV || "development",
