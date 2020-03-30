@@ -14,7 +14,7 @@ const plugins = [
       to: path.resolve(distPath, "index.html"),
     },
   ]),
-  new WorkerPlugin(),
+  new WorkerPlugin({ globalObject: 'self' }),
 ];
 
 const baseConfig = {
@@ -85,6 +85,7 @@ const modernConfig = Object.assign({}, baseConfig, {
   output: {
     path: distPath,
     filename: "main.mjs",
+    chunkFilename: '[name].[id].[contenthash].js',
   },
   module: {
     rules: configureLoaders({ isModern: true }),
@@ -98,6 +99,7 @@ const legacyConfig = Object.assign({}, baseConfig, {
   output: {
     path: distPath,
     filename: "main.es5.js",
+    chunkFilename: '[name].[id].[contenthash].es5.js',
   },
   module: {
     rules: configureLoaders({ isModern: false }),
